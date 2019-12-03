@@ -1,7 +1,6 @@
 import logging
 import logging.handlers
 
-import socket
 import traceback
 
 from requests_futures.sessions import FuturesSession
@@ -9,9 +8,12 @@ from requests_futures.sessions import FuturesSession
 session = FuturesSession()
 
 
-def bg_cb(sess, resp):
+def response_callback(resp, *args, **kwargs):
     """ Don't do anything with the response """
     pass
+
+
+session.hooks['response'] = response_callback
 
 
 class HTTPSHandler(logging.Handler):
@@ -31,7 +33,7 @@ class HTTPSHandler(logging.Handler):
     def emit(self, record):
         try:
             payload = self.format(record)
-            session.post(self.url, data=payload.encode("utf-8"), background_callback=bg_cb)
+            session.post(self.url, data=payload.encode("utf-8"))
         except (KeyboardInterrupt, SystemExit):
             raise
         except:
