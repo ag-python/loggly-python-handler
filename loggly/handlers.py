@@ -31,7 +31,7 @@ class HTTPSHandler(logging.Handler):
     def emit(self, record):
         try:
             payload = self.format(record)
-            session.post(self.url, data=payload, background_callback=bg_cb)
+            session.post(self.url, data=payload.encode("utf-8"), background_callback=bg_cb)
         except (KeyboardInterrupt, SystemExit):
             raise
         except:
