@@ -18,7 +18,7 @@ setup(
     license="MIT",
     packages=find_packages(),
     install_requires=[
-        "requests-futures >= 0.9.9",
+        "requests-futures >= 1.0.0",
     ],
     include_package_data=True,
     platform='any',
